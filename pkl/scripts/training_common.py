@@ -35,10 +35,8 @@ RANDOM_STATE = 42
 SERIAL_COLUMN_NAME = "id"
 EMPTY_COLUMN_NAME = "class"
 CREDIT_INFERENCE_SOURCE = ROOT / "pkl" / "dataset" / "credit_inference_source.csv"
-EXTERNAL_CREDIT_INFERENCE_SOURCE = Path(
-    "/Users/sudip/Downloads/credit_application_model 3/dataset/input.csv"
-)
 CANONICAL_INPUT = ROOT / "pkl" / "dataset" / "input_with_empty_column.csv"
+INPUT_WITH_RANDOM_COLUMN = ROOT / "pkl" / "dataset" / "input_with_random_column.csv"
 SPLIT_FILE = ROOT / "pkl" / "dataset" / "train_test_split.json"
 SCHEMA_PATH = ROOT / "pkl" / "schema.json"
 
@@ -164,13 +162,20 @@ def _build_training_frame_from_openml() -> tuple[pd.DataFrame, np.ndarray]:
 
 
 def _resolve_credit_inference_source() -> Path:
-    if EXTERNAL_CREDIT_INFERENCE_SOURCE.exists():
-        return EXTERNAL_CREDIT_INFERENCE_SOURCE
+    import os
+
+    env_path = os.environ.get("CREDIT_INFERENCE_SOURCE")
+    if env_path:
+        path = Path(env_path)
+        if path.exists():
+            return path
+        raise FileNotFoundError(f"CREDIT_INFERENCE_SOURCE not found: {path}")
+
     if CREDIT_INFERENCE_SOURCE.exists():
         return CREDIT_INFERENCE_SOURCE
     raise FileNotFoundError(
-        "Missing credit inference source. Expected "
-        f"{EXTERNAL_CREDIT_INFERENCE_SOURCE} or {CREDIT_INFERENCE_SOURCE}"
+        "Missing credit inference source. Place CSV at "
+        f"{CREDIT_INFERENCE_SOURCE} or set CREDIT_INFERENCE_SOURCE env var."
     )
 
 
@@ -192,6 +197,18 @@ def ensure_canonical_input() -> Path:
     CANONICAL_INPUT.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(CANONICAL_INPUT, index=False)
     return CANONICAL_INPUT
+
+
+def ensure_input_with_random_column() -> Path:
+    """Build credit input CSV with an extra non-schema column (for ignore-extra-column tests)."""
+    if not CANONICAL_INPUT.exists():
+        ensure_canonical_input()
+    df = pd.read_csv(CANONICAL_INPUT)
+    rng = np.random.default_rng(RANDOM_STATE)
+    df["random_noise"] = rng.standard_normal(len(df))
+    INPUT_WITH_RANDOM_COLUMN.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(INPUT_WITH_RANDOM_COLUMN, index=False)
+    return INPUT_WITH_RANDOM_COLUMN
 
 
 def get_training_data():
@@ -313,4 +330,5 @@ def deploy_input_csv() -> Path:
 def deploy_all() -> Path:
     deploy_schema_json()
     ensure_canonical_input()
+    ensure_input_with_random_column()
     return deploy_input_csv()

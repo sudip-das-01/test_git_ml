@@ -1038,7 +1038,7 @@
     },
     "lightgbm": {
       "train_accuracy": NaN,
-      "test_accuracy": 0.88
+      "test_accuracy": 0.78
     },
     "catboost": {
       "train_accuracy": NaN,
@@ -1046,15 +1046,15 @@
     },
     "h5": {
       "train_accuracy": NaN,
-      "test_accuracy": 0.82
+      "test_accuracy": 0.8
     },
     "pt": {
       "train_accuracy": NaN,
-      "test_accuracy": 0.84
+      "test_accuracy": 0.8
     },
     "pb": {
       "train_accuracy": NaN,
-      "test_accuracy": 0.84
+      "test_accuracy": 0.82
     },
     "zip": {
       "train_accuracy": 0.79,

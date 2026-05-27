@@ -2,4 +2,10 @@
 __pycache__/
 .pytest_cache/
 *.pyc
-catboost_info/
+**/catboost_info/
+**/learn_error.tsv
+**/time_left.tsv
+*.tfevents
+zip/mlflow.db
+**/output/*_random_column.csv
+**/output/output_bad.csv

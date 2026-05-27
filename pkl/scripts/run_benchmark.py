@@ -8,7 +8,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.datasets import load_iris
 from sklearn.metrics import accuracy_score
 
 sys.path.insert(0, str(Path(__file__).parent))

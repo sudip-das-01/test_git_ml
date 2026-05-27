@@ -1,4 +1,4 @@
-"""Shared PyTorch architecture for train and inference (must stay in sync)."""
+"""PyTorch architecture for German credit classification (train + inference)."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 
 
-class NormalizedIrisNet(nn.Module):
+class NormalizedCreditNet(nn.Module):
     """MLP with StandardScaler-style normalization baked into the graph."""
 
     def __init__(self, n_in: int, n_out: int, X_train: np.ndarray, hidden: int = 32):
@@ -26,3 +26,7 @@ class NormalizedIrisNet(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = (x - self.mean) / self.std
         return self.net(x)
+
+
+# Backward compatibility for models saved before rename.
+NormalizedIrisNet = NormalizedCreditNet

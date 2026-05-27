@@ -2,7 +2,7 @@
 <PMML xmlns="http://www.dmg.org/PMML-4_4" version="4.4.1">
     <Header copyright="Copyright (c) 2021 Software AG" description="Default description">
         <Application name="Nyoka" version="5.5.0"/>
-        <Timestamp>2026-05-27 19:25:02.835051</Timestamp>
+        <Timestamp>2026-05-27 20:51:02.558699</Timestamp>
     </Header>
     <DataDictionary numberOfFields="49">
         <DataField name="duration" optype="continuous" dataType="double"/>

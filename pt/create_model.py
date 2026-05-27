@@ -9,13 +9,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "pkl" / "scripts"))
 from training_common import NUM_CLASSES, TORCH_EPOCHS, TORCH_HIDDEN_UNITS, TORCH_LR, get_training_data
 
-from model_net import NormalizedIrisNet
+from model import NormalizedCreditNet
 
 
 def main() -> None:
     X, y, train_idx, _, feature_cols = get_training_data()
     X_train = X.iloc[train_idx].values
-    model = NormalizedIrisNet(
+    model = NormalizedCreditNet(
         len(feature_cols), NUM_CLASSES, X_train, hidden=TORCH_HIDDEN_UNITS
     )
     optimizer = torch.optim.Adam(model.parameters(), lr=TORCH_LR)

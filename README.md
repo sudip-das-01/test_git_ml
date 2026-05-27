@@ -38,20 +38,24 @@ python inference.py
 ```text
 test_git_ml/
 ├── README.md
+├── run_all_inference.sh           # runs inference.py in every extension (reads EXTENSIONS from training_common)
 ├── test_model_extensions.ipynb    # trains all models + runs inference + accuracy table
 ├── pkl/                           # reference layout + shared scripts/tests
 │   ├── create_model.py
 │   ├── inference.py
-│   ├── inference_common.py
 │   ├── schema.json
 │   ├── dataset/
 │   │   ├── input_with_empty_column.csv   # canonical input (copied to all extensions)
+│   │   ├── input_with_random_column.csv  # credit input + extra column (schema tests)
 │   │   └── train_test_split.json
 │   ├── model/
 │   ├── output/
+│   ├── tests/
 │   └── scripts/
-│       ├── training_common.py
-│       └── run_benchmark.py
+│       ├── training_common.py   # EXTENSIONS list, deploy helpers, training data
+│       ├── build_inference.py   # regenerate self-contained */inference.py
+│       ├── run_inference_all.py # deploy input + run inference on all extensions
+│       └── run_benchmark.py     # train all models + inference + accuracy report
 ├── joblib/
 ├── dill/
 ├── onnx/
@@ -62,6 +66,8 @@ test_git_ml/
 ├── catboost/
 ├── h5/
 ├── pt/
+│   ├── model.py                 # PyTorch architecture (shared with create_model.py)
+│   └── ...
 ├── pb/
 └── zip/
 ```
@@ -71,8 +77,7 @@ Every extension folder contains:
 | File / folder | Purpose |
 |---------------|---------|
 | `create_model.py` | Train and save `model/model.<ext>` |
-| `inference.py` | Load model, read `dataset/input.csv`, write `output/output.csv` |
-| `inference_common.py` | Schema-based feature selection (ignores extra columns) |
+| `inference.py` | Load model, read `dataset/input.csv` (schema features only), write `output/output.csv` (`target` column) |
 | `schema.json` | Feature column names used for inference |
 | `dataset/input.csv` | Copy of canonical input CSV |
 | `model/` | Serialized model artifact |
@@ -84,7 +89,7 @@ Every extension folder contains:
 
 Canonical source: `pkl/dataset/input_with_empty_column.csv` (built from the credit-application inference CSV).
 
-- **Source file:** `pkl/dataset/credit_inference_source.csv` (copy of `credit_application_model 3/dataset/input.csv`), or the external path if present
+- **Source file:** `pkl/dataset/credit_inference_source.csv` (or override with env var `CREDIT_INFERENCE_SOURCE=/path/to/input.csv`)
 - **48 feature columns** from `schema.json` (German credit one-hot features: `duration`, `credit_amount`, `status_a12`, …)
 - Column `id`: serial number (`1` … `50`) replacing the original `unique_str` column
 - Column `class`: **header present, all cells empty** (ignored at inference; only schema features are used)
@@ -93,6 +98,10 @@ Canonical source: `pkl/dataset/input_with_empty_column.csv` (built from the cred
 Training uses OpenML German Credit (1000 rows) encoded to the same 48 features; inference accuracy is measured on the 50-row deployment file.
 
 Input must not include `target` or `prediction` columns.
+
+Extra non-schema columns (e.g. `random_noise` in `input_with_random_column.csv`) are ignored at inference; only columns listed in `schema.json` are passed to the model.
+
+The extension list (`EXTENSIONS` in `pkl/scripts/training_common.py`) is the single source of truth used by deploy scripts, tests, and `run_all_inference.sh`.
 
 ## Model extensions
 
@@ -112,7 +121,7 @@ Input must not include `target` or `prediction` columns.
 | `pb` | `model/` | TensorFlow SavedModel directory |
 | `zip` | `model/model.zip` | MLflow sklearn bundle (zip) |
 
-Training defaults in `pkl/scripts/training_common.py`: `N_ESTIMATORS=100`, `KERAS_EPOCHS=150` (with early stopping), `TORCH_EPOCHS=300`. Keras models (`h5`, `pb`) use a **feature normalization** layer; PyTorch (`pt`) uses `pt/model_net.py` with built-in standardization. Sklearn exports use a `StandardScaler` + `LogisticRegression` pipeline.
+Training defaults in `pkl/scripts/training_common.py`: `N_ESTIMATORS=100`, `KERAS_EPOCHS=150` (with early stopping), `TORCH_EPOCHS=300`. Keras models (`h5`, `pb`) use a **feature normalization** layer; PyTorch (`pt`) uses `pt/model.py` (`NormalizedCreditNet`). Sklearn exports use a `StandardScaler` + `LogisticRegression` pipeline. Regenerate all `inference.py` files after I/O changes: `python pkl/scripts/build_inference.py`.
 
 ## Setup
 
@@ -147,7 +156,7 @@ PYTHON="conda run -n ostrichml python" ./run_all_inference.sh
 
 The script `cd`s into each extension directory and runs `python inference.py` (same as doing it manually in `pkl/`, `joblib/`, etc.). All **13** extensions should print `OK <ext> -> .../output/output.csv`.
 
-**Latest run** (`PYTHON="conda run -n ostrichml python" ./run_all_inference.sh`): all extensions completed successfully (50 rows each).
+**Latest run** (`PYTHON="conda run -n ostrichml python" ./run_all_inference.sh`): all **13** extensions OK, 50 rows each, output column `target` only. Extension list is read from `pkl/scripts/training_common.py` (not hardcoded in the shell script).
 
 ### Python script (deploy input + inference + accuracy report)
 
@@ -315,6 +324,8 @@ jupyter notebook test_model_extensions.ipynb
 conda run -n ostrichml pytest pkl/tests/test_inference_extensions.py -v
 ```
 
+Coverage includes: shared input deployment, per-extension train/inference, sklearn-family prediction parity, forbidden `target` column rejection, and **extra columns ignored** (`pkl/dataset/input_with_random_column.csv` with a `random_noise` column).
+
 ## Latest inference results
 
 After `./run_all_inference.sh` (or `run_inference_all.py`), see `pkl/output/inference_report.csv`.  
@@ -322,8 +333,6 @@ Dataset: **50 rows**, columns `id`, 48 credit features, empty `class`.
 
 | Extension | Rows | Inference test acc. | Inference full acc. |
 |-----------|------|---------------------|---------------------|
-| lightgbm | 50 | 0.8800 | 0.8800 |
-| h5 | 50 | 0.8800 | 0.8800 |
 | pkl | 50 | 0.8600 | 0.8600 |
 | joblib | 50 | 0.8600 | 0.8600 |
 | dill | 50 | 0.8600 | 0.8600 |
@@ -332,9 +341,11 @@ Dataset: **50 rows**, columns `id`, 48 credit features, empty `class`.
 | pickle | 50 | 0.8600 | 0.8600 |
 | zip | 50 | 0.8600 | 0.8600 |
 | catboost | 50 | 0.8600 | 0.8600 |
-| pb | 50 | 0.8400 | 0.8400 |
+| pb | 50 | 0.8200 | 0.8200 |
 | xgboost | 50 | 0.8000 | 0.8000 |
+| h5 | 50 | 0.8000 | 0.8000 |
 | pt | 50 | 0.8000 | 0.8000 |
+| lightgbm | 50 | 0.7800 | 0.7800 |
 
 *Inference test acc.* = accuracy on deployment rows that fall in the OpenML hold-out test split (see `pkl/dataset/train_test_split.json`).
 
@@ -352,10 +363,10 @@ After `run_benchmark.py`, see `pkl/output/accuracy_report.csv`. Example snapshot
 | pickle | 0.7900 | 0.7700 | 0.8600 |
 | zip | 0.7900 | 0.7700 | 0.8600 |
 | xgboost | — | 0.8000 | 0.8000 |
-| lightgbm | — | 0.8800 | 0.8800 |
+| lightgbm | — | 0.7800 | 0.7800 |
 | catboost | — | 0.8600 | 0.8600 |
-| h5 | — | 0.8200 | 0.8800 |
-| pt | — | 0.8400 | 0.8000 |
-| pb | — | 0.8400 | 0.8400 |
+| h5 | — | 0.8000 | 0.8000 |
+| pt | — | 0.8000 | 0.8000 |
+| pb | — | 0.8200 | 0.8200 |
 
 `inference_test_accuracy` is on the 50-row deployment CSV (rows that fall in the held-out OpenML test split). Retrain from repo root: `conda run -n ostrichml python pkl/scripts/run_benchmark.py`.

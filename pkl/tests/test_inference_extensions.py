@@ -13,23 +13,12 @@ import pytest
 from sklearn.metrics import accuracy_score
 
 ROOT = Path(__file__).resolve().parents[2]
-EXTENSIONS = [
-    "pkl",
-    "joblib",
-    "dill",
-    "onnx",
-    "pmml",
-    "pickle",
-    "xgboost",
-    "lightgbm",
-    "catboost",
-    "h5",
-    "pt",
-    "pb",
-    "zip",
-]
+sys.path.insert(0, str(ROOT / "pkl" / "scripts"))
+from training_common import EXTENSIONS
+
 SKLEARN_PARITY_EXTENSIONS = ["pkl", "joblib", "dill", "pickle", "onnx", "pmml", "zip"]
 SHARED_INPUT = ROOT / "pkl" / "dataset" / "input_with_empty_column.csv"
+INPUT_WITH_RANDOM_COLUMN = ROOT / "pkl" / "dataset" / "input_with_random_column.csv"
 SPLIT_FILE = ROOT / "pkl" / "dataset" / "train_test_split.json"
 SCHEMA_PATH = ROOT / "pkl" / "schema.json"
 SERIAL_COLUMN = "id"
@@ -158,6 +147,28 @@ class TestInferenceAccuracy:
 
 
 class TestSchemaValidation:
+    @pytest.mark.parametrize("ext", EXTENSIONS)
+    def test_extra_columns_are_ignored(self, ext):
+        assert INPUT_WITH_RANDOM_COLUMN.exists()
+        baseline = pd.read_csv(ROOT / ext / "output" / "output.csv")["target"].to_numpy()
+        out_path = ROOT / ext / "output" / "output_random_column.csv"
+        proc = subprocess.run(
+            [
+                sys.executable,
+                "inference.py",
+                "--data",
+                str(INPUT_WITH_RANDOM_COLUMN),
+                "--output",
+                str(out_path),
+            ],
+            cwd=ROOT / ext,
+            capture_output=True,
+            text=True,
+        )
+        assert proc.returncode == 0, proc.stderr
+        preds = pd.read_csv(out_path)["target"].to_numpy()
+        np.testing.assert_array_equal(baseline, preds)
+
     def test_forbidden_target_column_raises(self):
         bad_input = ROOT / "pkl" / "dataset" / "input_bad.csv"
         df = pd.read_csv(ROOT / "pkl" / "dataset" / "input.csv")
