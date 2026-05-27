@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" version="4.4.1">
+    <Header copyright="Copyright (c) 2021 Software AG" description="Default description">
+        <Application name="Nyoka" version="5.5.0"/>
+        <Timestamp>2026-05-27 18:19:18.240076</Timestamp>
+    </Header>
+    <DataDictionary numberOfFields="5">
+        <DataField name="sepal length (cm)" optype="continuous" dataType="double"/>
+        <DataField name="sepal width (cm)" optype="continuous" dataType="double"/>
+        <DataField name="petal length (cm)" optype="continuous" dataType="double"/>
+        <DataField name="petal width (cm)" optype="continuous" dataType="double"/>
+        <DataField name="target" optype="categorical" dataType="integer">
+            <Value value="0"/>
+            <Value value="1"/>
+            <Value value="2"/>
+        </DataField>
+    </DataDictionary>
+    <MiningModel modelName="LogisticRegression" functionName="classification">
+        <MiningSchema>
+            <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="target" usageType="target" optype="categorical"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+            <OutputField name="probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+            <OutputField name="probability_2" optype="continuous" dataType="double" feature="probability" value="2"/>
+            <OutputField name="predicted_target" optype="categorical" dataType="integer" feature="predictedValue"/>
+        </Output>
+        <Segmentation multipleModelMethod="modelChain" missingThreshold="1">
+            <Segment id="1" weight="1">
+                <True/>
+                <RegressionModel functionName="regression" normalizationMethod="logit">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="probablity_0" optype="continuous" dataType="double" feature="predictedValue"/>
+                    </Output>
+                    <RegressionTable intercept="9.9277519594776145">
+                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="-0.5450845051093338"/>
+                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="0.7644506827183775"/>
+                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="-2.2289407856811034"/>
+                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="-0.9745773699261988"/>
+                    </RegressionTable>
+                </RegressionModel>
+            </Segment>
+            <Segment id="2" weight="1">
+                <True/>
+                <RegressionModel functionName="regression" normalizationMethod="logit">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="probablity_1" optype="continuous" dataType="double" feature="predictedValue"/>
+                    </Output>
+                    <RegressionTable intercept="2.4228775589207094">
+                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="0.4211683077427547"/>
+                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="-0.4271172922223593"/>
+                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="-0.1004651160422916"/>
+                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="-0.8387813894941026"/>
+                    </RegressionTable>
+                </RegressionModel>
+            </Segment>
+            <Segment id="3" weight="1">
+                <True/>
+                <RegressionModel functionName="regression" normalizationMethod="logit">
+                    <MiningSchema>
+                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
+                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+                    </MiningSchema>
+                    <Output>
+                        <OutputField name="probablity_2" optype="continuous" dataType="double" feature="predictedValue"/>
+                    </Output>
+                    <RegressionTable intercept="-12.3506295183981667">
+                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="0.1239161973665829"/>
+                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="-0.3373333904960160"/>
+                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="2.3294059017233986"/>
+                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="1.8133587594203018"/>
+                    </RegressionTable>
+                </RegressionModel>
+            </Segment>
+            <Segment id="4" weight="1">
+                <True/>
+                <RegressionModel functionName="classification" normalizationMethod="simplemax">
+                    <MiningSchema>
+                        <MiningField name="probablity_0" usageType="active"/>
+                        <MiningField name="probablity_1" usageType="active"/>
+                        <MiningField name="probablity_2" usageType="active"/>
+                        <MiningField name="target" usageType="target"/>
+                    </MiningSchema>
+                    <RegressionTable intercept="0.0" targetCategory="0">
+                        <NumericPredictor name="probablity_0" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                    <RegressionTable intercept="0.0" targetCategory="1">
+                        <NumericPredictor name="probablity_1" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                    <RegressionTable intercept="0.0" targetCategory="2">
+                        <NumericPredictor name="probablity_2" exponent="1" coefficient="1.0"/>
+                    </RegressionTable>
+                </RegressionModel>
+            </Segment>
+        </Segmentation>
+    </MiningModel>
+</PMML>

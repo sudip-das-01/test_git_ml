@@ -1,40 +1,10 @@
 import argparse
 import json
 import os
-import pickle
 from pathlib import Path
+from typing import Callable
 
 import pandas as pd
-
-
-def load_model(model_path: str):
-    if not os.path.exists(model_path):
-        model_path = discover_model_path()
-
-    with open(model_path, "rb") as f:
-        model = pickle.load(f)
-    return model
-
-
-def discover_model_path() -> str:
-    model_dir = Path("model")
-    preferred = model_dir / "model.pkl"
-    if preferred.exists():
-        return str(preferred)
-
-    matches = sorted(model_dir.glob("model.*"))
-    if not matches:
-        raise FileNotFoundError("Missing model file. Expected model/model.<ext> (e.g. model/model.pkl).")
-
-    # Prefer pickle if multiple matches exist
-    for p in matches:
-        if p.suffix.lower() in (".pkl", ".pickle"):
-            return str(p)
-
-    if len(matches) == 1:
-        return str(matches[0])
-
-    raise FileNotFoundError(f"Multiple candidate models found: {[str(p) for p in matches]}")
 
 
 def discover_input_path() -> str:
@@ -47,7 +17,6 @@ def discover_input_path() -> str:
     if not matches:
         raise FileNotFoundError("Missing input file. Expected dataset/input.<ext> (e.g. dataset/input.csv).")
 
-    # Prefer CSV if multiple matches exist
     for p in matches:
         if p.suffix.lower() == ".csv":
             return str(p)
@@ -75,7 +44,7 @@ def load_schema_features(schema_path: str) -> list[str]:
     return feature_cols
 
 
-def run_inference(model, data_path: str, output_path: str, schema_path: str):
+def run_inference(predict_fn: Callable, data_path: str, output_path: str, schema_path: str):
     if not os.path.exists(data_path):
         data_path = discover_input_path()
 
@@ -97,27 +66,20 @@ def run_inference(model, data_path: str, output_path: str, schema_path: str):
         )
 
     X = df[feature_cols]
-    preds = model.predict(X)
+    preds = predict_fn(X, df)
 
     output_df = pd.DataFrame({"target": preds})
     if "id" in df.columns:
         output_df.insert(0, "id", df["id"])
 
-    pd.DataFrame(output_df).to_csv(output_path, index=False)
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    output_df.to_csv(output_path, index=False)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Run model inference")
+def build_arg_parser(description: str, default_model: str) -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("--data", type=str, default="dataset/input.csv")
-    parser.add_argument("--model", type=str, default="model/model.pkl")
+    parser.add_argument("--model", type=str, default=default_model)
     parser.add_argument("--output", type=str, default="output/output.csv")
     parser.add_argument("--schema", type=str, default="schema.json")
-    args = parser.parse_args()
-
-    model = load_model(args.model)
-    run_inference(model, args.data, args.output, args.schema)
-
-
-if __name__ == "__main__":
-    main()
-
+    return parser

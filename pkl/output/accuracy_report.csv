@@ -1,0 +1,6 @@
+extension,train_accuracy,test_accuracy,inference_full_accuracy,inference_train_accuracy,inference_test_accuracy,output_rows
+pkl,0.9714,0.9333,0.96,0.9714,0.9333,150
+joblib,0.9714,0.9333,0.96,0.9714,0.9333,150
+dill,0.9714,0.9333,0.96,0.9714,0.9333,150
+onnx,0.9714,0.9333,0.96,0.9714,0.9333,150
+pmml,0.9714,0.9333,0.96,0.9714,0.9333,150
