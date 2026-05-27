@@ -10,7 +10,6 @@ nyoka==5.5.0
 pypmml==1.5.7
 xgboost==3.0.5
 lightgbm==4.6.0
-catboost==1.2.8
 tensorflow==2.20.0
 torch==2.8.0
 mlflow==3.5.1

@@ -25,7 +25,6 @@ EXTENSIONS = [
     "pickle",
     "xgboost",
     "lightgbm",
-    "catboost",
     "h5",
     "pt",
     "pb",

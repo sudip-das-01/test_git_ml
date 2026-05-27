@@ -1040,10 +1040,6 @@
       "train_accuracy": NaN,
       "test_accuracy": 0.78
     },
-    "catboost": {
-      "train_accuracy": NaN,
-      "test_accuracy": 0.86
-    },
     "h5": {
       "train_accuracy": NaN,
       "test_accuracy": 0.8

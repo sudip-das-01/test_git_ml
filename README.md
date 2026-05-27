@@ -63,7 +63,6 @@ test_git_ml/
 ├── pickle/
 ├── xgboost/
 ├── lightgbm/
-├── catboost/
 ├── h5/
 ├── pt/
 │   ├── model.py                 # PyTorch architecture (shared with create_model.py)
@@ -115,7 +114,6 @@ The extension list (`EXTENSIONS` in `pkl/scripts/training_common.py`) is the sin
 | `pmml` | `model/model.pmml` | PMML (requires Java for inference) |
 | `xgboost` | `model/model.json` | XGBoost JSON |
 | `lightgbm` | `model/model.txt` | LightGBM text |
-| `catboost` | `model/model.cbm` | CatBoost |
 | `h5` | `model/model.h5` | Keras HDF5 |
 | `pt` | `model/model.pt` | PyTorch |
 | `pb` | `model/` | TensorFlow SavedModel directory |
@@ -156,7 +154,7 @@ PYTHON="conda run -n ostrichml python" ./run_all_inference.sh
 
 The script `cd`s into each extension directory and runs `python inference.py` (same as doing it manually in `pkl/`, `joblib/`, etc.). All **13** extensions should print `OK <ext> -> .../output/output.csv`.
 
-**Latest run** (`PYTHON="conda run -n ostrichml python" ./run_all_inference.sh`): all **13** extensions OK, 50 rows each, output column `target` only. Extension list is read from `pkl/scripts/training_common.py` (not hardcoded in the shell script).
+**Latest run** (`PYTHON="conda run -n ostrichml python" ./run_all_inference.sh`): all **12** extensions OK, 50 rows each, output column `target` only. Extension list is read from `pkl/scripts/training_common.py` (not hardcoded in the shell script).
 
 ### Python script (deploy input + inference + accuracy report)
 
@@ -240,14 +238,6 @@ conda run -n ostrichml python inference.py
 
 ```bash
 cd lightgbm
-conda run -n ostrichml python create_model.py
-conda run -n ostrichml python inference.py
-```
-
-### CatBoost
-
-```bash
-cd catboost
 conda run -n ostrichml python create_model.py
 conda run -n ostrichml python inference.py
 ```
@@ -340,7 +330,6 @@ Dataset: **50 rows**, columns `id`, 48 credit features, empty `class`.
 | pmml | 50 | 0.8600 | 0.8600 |
 | pickle | 50 | 0.8600 | 0.8600 |
 | zip | 50 | 0.8600 | 0.8600 |
-| catboost | 50 | 0.8600 | 0.8600 |
 | pb | 50 | 0.8200 | 0.8200 |
 | xgboost | 50 | 0.8000 | 0.8000 |
 | h5 | 50 | 0.8000 | 0.8000 |
@@ -364,7 +353,6 @@ After `run_benchmark.py`, see `pkl/output/accuracy_report.csv`. Example snapshot
 | zip | 0.7900 | 0.7700 | 0.8600 |
 | xgboost | — | 0.8000 | 0.8000 |
 | lightgbm | — | 0.7800 | 0.7800 |
-| catboost | — | 0.8600 | 0.8600 |
 | h5 | — | 0.8000 | 0.8000 |
 | pt | — | 0.8000 | 0.8000 |
 | pb | — | 0.8200 | 0.8200 |
