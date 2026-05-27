@@ -2,114 +2,603 @@
 <PMML xmlns="http://www.dmg.org/PMML-4_4" version="4.4.1">
     <Header copyright="Copyright (c) 2021 Software AG" description="Default description">
         <Application name="Nyoka" version="5.5.0"/>
-        <Timestamp>2026-05-27 18:19:18.240076</Timestamp>
+        <Timestamp>2026-05-27 19:25:02.835051</Timestamp>
     </Header>
-    <DataDictionary numberOfFields="5">
-        <DataField name="sepal length (cm)" optype="continuous" dataType="double"/>
-        <DataField name="sepal width (cm)" optype="continuous" dataType="double"/>
-        <DataField name="petal length (cm)" optype="continuous" dataType="double"/>
-        <DataField name="petal width (cm)" optype="continuous" dataType="double"/>
+    <DataDictionary numberOfFields="49">
+        <DataField name="duration" optype="continuous" dataType="double"/>
+        <DataField name="credit_amount" optype="continuous" dataType="double"/>
+        <DataField name="installment_rate" optype="continuous" dataType="double"/>
+        <DataField name="residence_since" optype="continuous" dataType="double"/>
+        <DataField name="age" optype="continuous" dataType="double"/>
+        <DataField name="existing_credits" optype="continuous" dataType="double"/>
+        <DataField name="num_dependents" optype="continuous" dataType="double"/>
+        <DataField name="status_a12" optype="continuous" dataType="double"/>
+        <DataField name="status_a13" optype="continuous" dataType="double"/>
+        <DataField name="status_a14" optype="continuous" dataType="double"/>
+        <DataField name="credit_history_a31" optype="continuous" dataType="double"/>
+        <DataField name="credit_history_a32" optype="continuous" dataType="double"/>
+        <DataField name="credit_history_a33" optype="continuous" dataType="double"/>
+        <DataField name="credit_history_a34" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a41" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a410" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a42" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a43" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a44" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a45" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a46" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a48" optype="continuous" dataType="double"/>
+        <DataField name="purpose_a49" optype="continuous" dataType="double"/>
+        <DataField name="savings_a62" optype="continuous" dataType="double"/>
+        <DataField name="savings_a63" optype="continuous" dataType="double"/>
+        <DataField name="savings_a64" optype="continuous" dataType="double"/>
+        <DataField name="savings_a65" optype="continuous" dataType="double"/>
+        <DataField name="employment_a72" optype="continuous" dataType="double"/>
+        <DataField name="employment_a73" optype="continuous" dataType="double"/>
+        <DataField name="employment_a74" optype="continuous" dataType="double"/>
+        <DataField name="employment_a75" optype="continuous" dataType="double"/>
+        <DataField name="personal_status_a92" optype="continuous" dataType="double"/>
+        <DataField name="personal_status_a93" optype="continuous" dataType="double"/>
+        <DataField name="personal_status_a94" optype="continuous" dataType="double"/>
+        <DataField name="other_debtors_a102" optype="continuous" dataType="double"/>
+        <DataField name="other_debtors_a103" optype="continuous" dataType="double"/>
+        <DataField name="property_a122" optype="continuous" dataType="double"/>
+        <DataField name="property_a123" optype="continuous" dataType="double"/>
+        <DataField name="property_a124" optype="continuous" dataType="double"/>
+        <DataField name="other_installments_a142" optype="continuous" dataType="double"/>
+        <DataField name="other_installments_a143" optype="continuous" dataType="double"/>
+        <DataField name="housing_a152" optype="continuous" dataType="double"/>
+        <DataField name="housing_a153" optype="continuous" dataType="double"/>
+        <DataField name="job_a172" optype="continuous" dataType="double"/>
+        <DataField name="job_a173" optype="continuous" dataType="double"/>
+        <DataField name="job_a174" optype="continuous" dataType="double"/>
+        <DataField name="telephone_a192" optype="continuous" dataType="double"/>
+        <DataField name="foreign_worker_a202" optype="continuous" dataType="double"/>
         <DataField name="target" optype="categorical" dataType="integer">
             <Value value="0"/>
             <Value value="1"/>
-            <Value value="2"/>
         </DataField>
     </DataDictionary>
-    <MiningModel modelName="LogisticRegression" functionName="classification">
+    <TransformationDictionary>
+        <DerivedField name="standardScaler(duration)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="duration"/>
+                    <Constant dataType="double">20.7685714285714269</Constant>
+                </Apply>
+                <Constant dataType="double">11.9542286942098190</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(credit_amount)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="credit_amount"/>
+                    <Constant dataType="double">3200.8728571428573559</Constant>
+                </Apply>
+                <Constant dataType="double">2673.0306859668498873</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(installment_rate)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="installment_rate"/>
+                    <Constant dataType="double">2.9385714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">1.1227253648590823</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(residence_since)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="residence_since"/>
+                    <Constant dataType="double">2.8199999999999998</Constant>
+                </Apply>
+                <Constant dataType="double">1.0963054840169844</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(age)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="age"/>
+                    <Constant dataType="double">35.4685714285714297</Constant>
+                </Apply>
+                <Constant dataType="double">10.9462523639977594</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(existing_credits)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="existing_credits"/>
+                    <Constant dataType="double">1.4028571428571428</Constant>
+                </Apply>
+                <Constant dataType="double">0.5559988254282117</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(num_dependents)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="num_dependents"/>
+                    <Constant dataType="double">1.1585714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.3652759650076157</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(status_a12)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="status_a12"/>
+                    <Constant dataType="double">0.2685714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.4432164441066357</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(status_a13)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="status_a13"/>
+                    <Constant dataType="double">0.0628571428571429</Constant>
+                </Apply>
+                <Constant dataType="double">0.2427058352182320</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(status_a14)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="status_a14"/>
+                    <Constant dataType="double">0.3942857142857143</Constant>
+                </Apply>
+                <Constant dataType="double">0.4886967257880068</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(credit_history_a31)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="credit_history_a31"/>
+                    <Constant dataType="double">0.0542857142857143</Constant>
+                </Apply>
+                <Constant dataType="double">0.2265806159189353</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(credit_history_a32)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="credit_history_a32"/>
+                    <Constant dataType="double">0.5171428571428571</Constant>
+                </Apply>
+                <Constant dataType="double">0.4997060360341664</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(credit_history_a33)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="credit_history_a33"/>
+                    <Constant dataType="double">0.0957142857142857</Constant>
+                </Apply>
+                <Constant dataType="double">0.2941990163554083</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(credit_history_a34)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="credit_history_a34"/>
+                    <Constant dataType="double">0.2928571428571429</Constant>
+                </Apply>
+                <Constant dataType="double">0.4550734410341851</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a41)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a41"/>
+                    <Constant dataType="double">0.1085714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.3111007448872274</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a410)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a410"/>
+                    <Constant dataType="double">0.0085714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.0921843760280096</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a42)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a42"/>
+                    <Constant dataType="double">0.1800000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">0.3841874542459709</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a43)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a43"/>
+                    <Constant dataType="double">0.2657142857142857</Constant>
+                </Apply>
+                <Constant dataType="double">0.4417128072420275</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a44)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a44"/>
+                    <Constant dataType="double">0.0000000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">1.0000000000000000</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a45)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a45"/>
+                    <Constant dataType="double">0.0228571428571429</Constant>
+                </Apply>
+                <Constant dataType="double">0.1494479637785374</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a46)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a46"/>
+                    <Constant dataType="double">0.0500000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">0.2179449471770336</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a48)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a48"/>
+                    <Constant dataType="double">0.0071428571428571</Constant>
+                </Apply>
+                <Constant dataType="double">0.0842130437325114</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(purpose_a49)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="purpose_a49"/>
+                    <Constant dataType="double">0.0985714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.2980857293478109</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(savings_a62)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="savings_a62"/>
+                    <Constant dataType="double">0.1157142857142857</Constant>
+                </Apply>
+                <Constant dataType="double">0.3198819935474930</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(savings_a63)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="savings_a63"/>
+                    <Constant dataType="double">0.0585714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.2348208174896992</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(savings_a64)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="savings_a64"/>
+                    <Constant dataType="double">0.0528571428571429</Constant>
+                </Apply>
+                <Constant dataType="double">0.2237482185540758</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(savings_a65)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="savings_a65"/>
+                    <Constant dataType="double">0.1771428571428571</Constant>
+                </Apply>
+                <Constant dataType="double">0.3817895563083443</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(employment_a72)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="employment_a72"/>
+                    <Constant dataType="double">0.1714285714285714</Constant>
+                </Apply>
+                <Constant dataType="double">0.3768830273792262</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(employment_a73)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="employment_a73"/>
+                    <Constant dataType="double">0.3514285714285714</Constant>
+                </Apply>
+                <Constant dataType="double">0.4774165169034739</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(employment_a74)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="employment_a74"/>
+                    <Constant dataType="double">0.1614285714285714</Constant>
+                </Apply>
+                <Constant dataType="double">0.3679257910980175</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(employment_a75)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="employment_a75"/>
+                    <Constant dataType="double">0.2628571428571428</Constant>
+                </Apply>
+                <Constant dataType="double">0.4401854896587601</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(personal_status_a92)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="personal_status_a92"/>
+                    <Constant dataType="double">0.2985714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.4576314353409793</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(personal_status_a93)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="personal_status_a93"/>
+                    <Constant dataType="double">0.5514285714285714</Constant>
+                </Apply>
+                <Constant dataType="double">0.4973480693044021</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(personal_status_a94)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="personal_status_a94"/>
+                    <Constant dataType="double">0.0957142857142857</Constant>
+                </Apply>
+                <Constant dataType="double">0.2941990163554083</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(other_debtors_a102)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="other_debtors_a102"/>
+                    <Constant dataType="double">0.0428571428571429</Constant>
+                </Apply>
+                <Constant dataType="double">0.2025349554108261</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(other_debtors_a103)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="other_debtors_a103"/>
+                    <Constant dataType="double">0.0485714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.2149703349254478</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(property_a122)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="property_a122"/>
+                    <Constant dataType="double">0.2271428571428571</Constant>
+                </Apply>
+                <Constant dataType="double">0.4189856555919746</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(property_a123)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="property_a123"/>
+                    <Constant dataType="double">0.3300000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">0.4702127178203499</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(property_a124)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="property_a124"/>
+                    <Constant dataType="double">0.1585714285714286</Constant>
+                </Apply>
+                <Constant dataType="double">0.3652759650076157</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(other_installments_a142)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="other_installments_a142"/>
+                    <Constant dataType="double">0.0542857142857143</Constant>
+                </Apply>
+                <Constant dataType="double">0.2265806159189353</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(other_installments_a143)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="other_installments_a143"/>
+                    <Constant dataType="double">0.8042857142857143</Constant>
+                </Apply>
+                <Constant dataType="double">0.3967495483067783</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(housing_a152)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="housing_a152"/>
+                    <Constant dataType="double">0.7171428571428572</Constant>
+                </Apply>
+                <Constant dataType="double">0.4503875881858166</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(housing_a153)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="housing_a153"/>
+                    <Constant dataType="double">0.1071428571428571</Constant>
+                </Apply>
+                <Constant dataType="double">0.3092947870658710</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(job_a172)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="job_a172"/>
+                    <Constant dataType="double">0.2000000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">0.4000000000000000</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(job_a173)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="job_a173"/>
+                    <Constant dataType="double">0.6414285714285715</Constant>
+                </Apply>
+                <Constant dataType="double">0.4795810246284495</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(job_a174)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="job_a174"/>
+                    <Constant dataType="double">0.1414285714285714</Constant>
+                </Apply>
+                <Constant dataType="double">0.3484630979203464</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(telephone_a192)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="telephone_a192"/>
+                    <Constant dataType="double">0.4042857142857143</Constant>
+                </Apply>
+                <Constant dataType="double">0.4907532735603544</Constant>
+            </Apply>
+        </DerivedField>
+        <DerivedField name="standardScaler(foreign_worker_a202)" optype="continuous" dataType="double">
+            <Apply function="/">
+                <Apply function="-">
+                    <FieldRef field="foreign_worker_a202"/>
+                    <Constant dataType="double">0.0400000000000000</Constant>
+                </Apply>
+                <Constant dataType="double">0.1959591794226543</Constant>
+            </Apply>
+        </DerivedField>
+    </TransformationDictionary>
+    <RegressionModel modelName="LogisticRegression" functionName="classification" normalizationMethod="logit">
         <MiningSchema>
-            <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
-            <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
-            <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
-            <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
+            <MiningField name="duration" usageType="active" optype="continuous"/>
+            <MiningField name="credit_amount" usageType="active" optype="continuous"/>
+            <MiningField name="installment_rate" usageType="active" optype="continuous"/>
+            <MiningField name="residence_since" usageType="active" optype="continuous"/>
+            <MiningField name="age" usageType="active" optype="continuous"/>
+            <MiningField name="existing_credits" usageType="active" optype="continuous"/>
+            <MiningField name="num_dependents" usageType="active" optype="continuous"/>
+            <MiningField name="status_a12" usageType="active" optype="continuous"/>
+            <MiningField name="status_a13" usageType="active" optype="continuous"/>
+            <MiningField name="status_a14" usageType="active" optype="continuous"/>
+            <MiningField name="credit_history_a31" usageType="active" optype="continuous"/>
+            <MiningField name="credit_history_a32" usageType="active" optype="continuous"/>
+            <MiningField name="credit_history_a33" usageType="active" optype="continuous"/>
+            <MiningField name="credit_history_a34" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a41" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a410" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a42" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a43" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a44" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a45" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a46" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a48" usageType="active" optype="continuous"/>
+            <MiningField name="purpose_a49" usageType="active" optype="continuous"/>
+            <MiningField name="savings_a62" usageType="active" optype="continuous"/>
+            <MiningField name="savings_a63" usageType="active" optype="continuous"/>
+            <MiningField name="savings_a64" usageType="active" optype="continuous"/>
+            <MiningField name="savings_a65" usageType="active" optype="continuous"/>
+            <MiningField name="employment_a72" usageType="active" optype="continuous"/>
+            <MiningField name="employment_a73" usageType="active" optype="continuous"/>
+            <MiningField name="employment_a74" usageType="active" optype="continuous"/>
+            <MiningField name="employment_a75" usageType="active" optype="continuous"/>
+            <MiningField name="personal_status_a92" usageType="active" optype="continuous"/>
+            <MiningField name="personal_status_a93" usageType="active" optype="continuous"/>
+            <MiningField name="personal_status_a94" usageType="active" optype="continuous"/>
+            <MiningField name="other_debtors_a102" usageType="active" optype="continuous"/>
+            <MiningField name="other_debtors_a103" usageType="active" optype="continuous"/>
+            <MiningField name="property_a122" usageType="active" optype="continuous"/>
+            <MiningField name="property_a123" usageType="active" optype="continuous"/>
+            <MiningField name="property_a124" usageType="active" optype="continuous"/>
+            <MiningField name="other_installments_a142" usageType="active" optype="continuous"/>
+            <MiningField name="other_installments_a143" usageType="active" optype="continuous"/>
+            <MiningField name="housing_a152" usageType="active" optype="continuous"/>
+            <MiningField name="housing_a153" usageType="active" optype="continuous"/>
+            <MiningField name="job_a172" usageType="active" optype="continuous"/>
+            <MiningField name="job_a173" usageType="active" optype="continuous"/>
+            <MiningField name="job_a174" usageType="active" optype="continuous"/>
+            <MiningField name="telephone_a192" usageType="active" optype="continuous"/>
+            <MiningField name="foreign_worker_a202" usageType="active" optype="continuous"/>
             <MiningField name="target" usageType="target" optype="categorical"/>
         </MiningSchema>
         <Output>
             <OutputField name="probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
             <OutputField name="probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
-            <OutputField name="probability_2" optype="continuous" dataType="double" feature="probability" value="2"/>
             <OutputField name="predicted_target" optype="categorical" dataType="integer" feature="predictedValue"/>
         </Output>
-        <Segmentation multipleModelMethod="modelChain" missingThreshold="1">
-            <Segment id="1" weight="1">
-                <True/>
-                <RegressionModel functionName="regression" normalizationMethod="logit">
-                    <MiningSchema>
-                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
-                    </MiningSchema>
-                    <Output>
-                        <OutputField name="probablity_0" optype="continuous" dataType="double" feature="predictedValue"/>
-                    </Output>
-                    <RegressionTable intercept="9.9277519594776145">
-                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="-0.5450845051093338"/>
-                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="0.7644506827183775"/>
-                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="-2.2289407856811034"/>
-                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="-0.9745773699261988"/>
-                    </RegressionTable>
-                </RegressionModel>
-            </Segment>
-            <Segment id="2" weight="1">
-                <True/>
-                <RegressionModel functionName="regression" normalizationMethod="logit">
-                    <MiningSchema>
-                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
-                    </MiningSchema>
-                    <Output>
-                        <OutputField name="probablity_1" optype="continuous" dataType="double" feature="predictedValue"/>
-                    </Output>
-                    <RegressionTable intercept="2.4228775589207094">
-                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="0.4211683077427547"/>
-                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="-0.4271172922223593"/>
-                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="-0.1004651160422916"/>
-                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="-0.8387813894941026"/>
-                    </RegressionTable>
-                </RegressionModel>
-            </Segment>
-            <Segment id="3" weight="1">
-                <True/>
-                <RegressionModel functionName="regression" normalizationMethod="logit">
-                    <MiningSchema>
-                        <MiningField name="sepal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="sepal width (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal length (cm)" usageType="active" optype="continuous"/>
-                        <MiningField name="petal width (cm)" usageType="active" optype="continuous"/>
-                    </MiningSchema>
-                    <Output>
-                        <OutputField name="probablity_2" optype="continuous" dataType="double" feature="predictedValue"/>
-                    </Output>
-                    <RegressionTable intercept="-12.3506295183981667">
-                        <NumericPredictor name="sepal length (cm)" exponent="1" coefficient="0.1239161973665829"/>
-                        <NumericPredictor name="sepal width (cm)" exponent="1" coefficient="-0.3373333904960160"/>
-                        <NumericPredictor name="petal length (cm)" exponent="1" coefficient="2.3294059017233986"/>
-                        <NumericPredictor name="petal width (cm)" exponent="1" coefficient="1.8133587594203018"/>
-                    </RegressionTable>
-                </RegressionModel>
-            </Segment>
-            <Segment id="4" weight="1">
-                <True/>
-                <RegressionModel functionName="classification" normalizationMethod="simplemax">
-                    <MiningSchema>
-                        <MiningField name="probablity_0" usageType="active"/>
-                        <MiningField name="probablity_1" usageType="active"/>
-                        <MiningField name="probablity_2" usageType="active"/>
-                        <MiningField name="target" usageType="target"/>
-                    </MiningSchema>
-                    <RegressionTable intercept="0.0" targetCategory="0">
-                        <NumericPredictor name="probablity_0" exponent="1" coefficient="1.0"/>
-                    </RegressionTable>
-                    <RegressionTable intercept="0.0" targetCategory="1">
-                        <NumericPredictor name="probablity_1" exponent="1" coefficient="1.0"/>
-                    </RegressionTable>
-                    <RegressionTable intercept="0.0" targetCategory="2">
-                        <NumericPredictor name="probablity_2" exponent="1" coefficient="1.0"/>
-                    </RegressionTable>
-                </RegressionModel>
-            </Segment>
-        </Segmentation>
-    </MiningModel>
+        <RegressionTable intercept="-1.2548168640867763" targetCategory="1">
+            <NumericPredictor name="standardScaler(duration)" exponent="1" coefficient="0.3625003473462977"/>
+            <NumericPredictor name="standardScaler(credit_amount)" exponent="1" coefficient="0.2166483103925101"/>
+            <NumericPredictor name="standardScaler(installment_rate)" exponent="1" coefficient="0.3602831288735119"/>
+            <NumericPredictor name="standardScaler(residence_since)" exponent="1" coefficient="-0.0160185930010275"/>
+            <NumericPredictor name="standardScaler(age)" exponent="1" coefficient="-0.0892519670734351"/>
+            <NumericPredictor name="standardScaler(existing_credits)" exponent="1" coefficient="0.2296490321455689"/>
+            <NumericPredictor name="standardScaler(num_dependents)" exponent="1" coefficient="0.1223078883663677"/>
+            <NumericPredictor name="standardScaler(status_a12)" exponent="1" coefficient="-0.1198821412013130"/>
+            <NumericPredictor name="standardScaler(status_a13)" exponent="1" coefficient="-0.1663493114358191"/>
+            <NumericPredictor name="standardScaler(status_a14)" exponent="1" coefficient="-0.7834274993619013"/>
+            <NumericPredictor name="standardScaler(credit_history_a31)" exponent="1" coefficient="0.0333475998081917"/>
+            <NumericPredictor name="standardScaler(credit_history_a32)" exponent="1" coefficient="-0.1219017815759390"/>
+            <NumericPredictor name="standardScaler(credit_history_a33)" exponent="1" coefficient="-0.1163363699133196"/>
+            <NumericPredictor name="standardScaler(credit_history_a34)" exponent="1" coefficient="-0.5357295965393075"/>
+            <NumericPredictor name="standardScaler(purpose_a41)" exponent="1" coefficient="-0.2851105155775184"/>
+            <NumericPredictor name="standardScaler(purpose_a410)" exponent="1" coefficient="-0.1363699530318168"/>
+            <NumericPredictor name="standardScaler(purpose_a42)" exponent="1" coefficient="-0.1290722632607108"/>
+            <NumericPredictor name="standardScaler(purpose_a43)" exponent="1" coefficient="-0.2122307622310434"/>
+            <NumericPredictor name="standardScaler(purpose_a44)" exponent="1" coefficient="0.0000000000000000"/>
+            <NumericPredictor name="standardScaler(purpose_a45)" exponent="1" coefficient="-0.0177530827047161"/>
+            <NumericPredictor name="standardScaler(purpose_a46)" exponent="1" coefficient="0.1801522415720223"/>
+            <NumericPredictor name="standardScaler(purpose_a48)" exponent="1" coefficient="-0.1095643332566692"/>
+            <NumericPredictor name="standardScaler(purpose_a49)" exponent="1" coefficient="-0.0969140254695129"/>
+            <NumericPredictor name="standardScaler(savings_a62)" exponent="1" coefficient="-0.1338272436091366"/>
+            <NumericPredictor name="standardScaler(savings_a63)" exponent="1" coefficient="-0.1342316304580005"/>
+            <NumericPredictor name="standardScaler(savings_a64)" exponent="1" coefficient="-0.3328616464292256"/>
+            <NumericPredictor name="standardScaler(savings_a65)" exponent="1" coefficient="-0.4623028400469168"/>
+            <NumericPredictor name="standardScaler(employment_a72)" exponent="1" coefficient="-0.1417889078309914"/>
+            <NumericPredictor name="standardScaler(employment_a73)" exponent="1" coefficient="-0.2831557460566383"/>
+            <NumericPredictor name="standardScaler(employment_a74)" exponent="1" coefficient="-0.4696464216029485"/>
+            <NumericPredictor name="standardScaler(employment_a75)" exponent="1" coefficient="-0.2903276527100010"/>
+            <NumericPredictor name="standardScaler(personal_status_a92)" exponent="1" coefficient="-0.1152765713998343"/>
+            <NumericPredictor name="standardScaler(personal_status_a93)" exponent="1" coefficient="-0.3588035502577882"/>
+            <NumericPredictor name="standardScaler(personal_status_a94)" exponent="1" coefficient="-0.0683218123696185"/>
+            <NumericPredictor name="standardScaler(other_debtors_a102)" exponent="1" coefficient="0.0668392873565338"/>
+            <NumericPredictor name="standardScaler(other_debtors_a103)" exponent="1" coefficient="-0.1598451956614403"/>
+            <NumericPredictor name="standardScaler(property_a122)" exponent="1" coefficient="0.0652030760975936"/>
+            <NumericPredictor name="standardScaler(property_a123)" exponent="1" coefficient="0.0963928947557293"/>
+            <NumericPredictor name="standardScaler(property_a124)" exponent="1" coefficient="0.4396032597020155"/>
+            <NumericPredictor name="standardScaler(other_installments_a142)" exponent="1" coefficient="-0.1189855926350888"/>
+            <NumericPredictor name="standardScaler(other_installments_a143)" exponent="1" coefficient="-0.3566974769104054"/>
+            <NumericPredictor name="standardScaler(housing_a152)" exponent="1" coefficient="-0.2744026291119263"/>
+            <NumericPredictor name="standardScaler(housing_a153)" exponent="1" coefficient="-0.4124811839846861"/>
+            <NumericPredictor name="standardScaler(job_a172)" exponent="1" coefficient="0.0953501565439406"/>
+            <NumericPredictor name="standardScaler(job_a173)" exponent="1" coefficient="0.1007046099187841"/>
+            <NumericPredictor name="standardScaler(job_a174)" exponent="1" coefficient="0.0187056552221045"/>
+            <NumericPredictor name="standardScaler(telephone_a192)" exponent="1" coefficient="-0.1326927017778123"/>
+            <NumericPredictor name="standardScaler(foreign_worker_a202)" exponent="1" coefficient="-0.3232190228531360"/>
+        </RegressionTable>
+        <RegressionTable intercept="0.0" targetCategory="0"/>
+    </RegressionModel>
 </PMML>

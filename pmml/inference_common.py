@@ -69,8 +69,6 @@ def run_inference(predict_fn: Callable, data_path: str, output_path: str, schema
     preds = predict_fn(X, df)
 
     output_df = pd.DataFrame({"target": preds})
-    if "id" in df.columns:
-        output_df.insert(0, "id", df["id"])
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     output_df.to_csv(output_path, index=False)

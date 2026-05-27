@@ -1,0 +1,14 @@
+extension,output_rows,inference_test_accuracy,inference_full_accuracy,has_id_in_output
+pkl,50,0.86,0.86,True
+joblib,50,0.86,0.86,True
+dill,50,0.86,0.86,True
+onnx,50,0.86,0.86,True
+pmml,50,0.86,0.86,True
+pickle,50,0.86,0.86,True
+xgboost,50,0.8,0.8,True
+lightgbm,50,0.88,0.88,True
+catboost,50,0.86,0.86,True
+h5,50,0.88,0.88,True
+pt,50,0.8,0.8,True
+pb,50,0.84,0.84,True
+zip,50,0.86,0.86,True
